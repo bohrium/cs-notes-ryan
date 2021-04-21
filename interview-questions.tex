@@ -6,21 +6,23 @@
 \newcommand{\quest}[3]{%
     \par\noindent\hspace{-1cm}
     \textbf{\theqcounter\refstepcounter{qcounter}. #1.}
-    {#2}
+    \samepage{#2}
     ------ \textsc{twist}: {#3}
 }
 
 \newcommand{\cd}{\texttt}
-\newcommand{\real}{{\color{red!75}$\star$\ }}
+\newcommand{\real}{{\color{green}$\star$\ }}
+\newcommand{\hard}{{\color{red}\textbf{!}\ }}
 
 \begin{document}
-    Ryan, these questions are for practice.  A 45 minute technical interview
-    might have two or three such questions.  Questions marked with \real are
-    (inspired by) actual ones I've gotten.  Each question has a main version as
-    well as a followup twist that an interviewer might ask upon satisfactory
-    solution of the main version.  It might be good to avoid reading these
-    yourself, instead asking Chloe to draw randomly from these questions during
-    a practice interview.
+    Ryan, these $21$ questions are for practice.  A 45 minute technical
+    interview might have three such questions.  Questions marked with \real are
+    (inspired by) actual ones I've gotten.  Questions marked with \hard are
+    especially challenging; I wouldn't expect more than one in an interview.
+    Each question has a main version as well as a followup twist that an
+    interviewer might ask upon satisfactory solution of the main version.  It
+    might be good to avoid reading these yourself, instead asking Chloe to draw
+    randomly from these questions during a practice interview.
 
     Questions of the form \emph{determine xyz given abc} stand for
     \emph{construct a program that determines xyz given abc}.  Also implicit is
@@ -30,16 +32,41 @@
     distribution of input data and on which parameters you regard as
     asymptotically large.
 
-    %Tools to have in your toolbox include 
-    %\textbf{DFS-stacks},
-    %\textbf{BFS-queues},
-    %\textbf{dynamic programming},
-
-    \quest{legal parentheses}{%
-        \real check whether a given string of \cd{(}s and \cd{)}s is well-formed.%
+    \quest{popularity contest}{%
+        from a non-empty list of names identify the name(s) of greatest
+        frequency.
     }{%
-        \real what if we permit both round and square brackets?
+        identify the $10^4$ most frequently occuring names (assumed
+        unique) from a list of length $10^6$.   
+    }
+    \quest{\real legal parentheses}{%
+        check whether a given string of \cd{(}s and \cd{)}s is well-formed.%
+    }{%
+        what if we permit both round and square brackets?
         we regard \cd{([)]} as ill-formed.%
+    }
+    \quest{justify text}{%
+        a paragraph is a list $(x_i: 0\leq i<N)$ of words with natural widths
+        $w_i$.  we segment a paragraph into lines and slightly stretch each
+        word.  precisely, we choose indices $(i_j: 0\leq j<J)$ of the first
+        word in each $j$th line as well as a stretch amount $(\rho_i \in
+        [-0.1, +0.1]: 0\leq i<N)$ for each word.
+        %
+        we then render the $i$th word at width $(1+\rho_i) w_i$ so that each
+        line fits, i.e., so that the excess $e_j = W - \sum_{l_j \leq i <
+        l_{j+1}} (1+\rho_i) w_i$ is non-negative.  determine $\rho_i$, $J$,
+        and $l_j$ that minimize the \emph{distortion} $D = \sum_j e_j^3 +
+        \lambda \sum_i \rho_i^2$.
+    }{%
+        in a greedy approach, we set $l_1$ and $(\rho_i:l_0\leq i<l_1)$ to
+        minimize the distortion $e_0^3 + \lambda \sum_{l_0\leq i<l_1} \rho_i^2$ 
+        of the first line, then repeat.  is this greedy approach 
+        suboptimal? 
+    }
+    \quest{\real merge sort}{%
+        implement merge sort.%
+    }{%
+        compare merge sort with some alternatives.%
     }
     \quest{missing numbers}{%
         given a length-$(n-1)$ array $L$ containing distinct integers in the
@@ -55,7 +82,7 @@
     }{%
         what if we wish to maximize the \emph{product}?% 
     }
-    \quest{memory allocation}{%
+    \quest{\hard memory allocation}{%
         implement a simple memory allocator (i.e., implement \cd{char*
         malloc(int nb\_bytes)}, \cd{char* free(int nb\_bytes)}).  use a
         primitive \cd{char* sbrk(int nb\_kilobytes)} to request chunks of
@@ -79,8 +106,8 @@
     }{%
         does your solution use as few comparisons as possible (asymptotically)?
     }
-    \quest{herding cows}{%
-        \real a farmer tries to herd musical cows all onto some single hill
+    \quest{\hard \real herding cows}{%
+        a farmer tries to herd musical cows all onto some single hill
         in a finite set $H$ of hills.  each cow starts on some hill in $H$.
         the farmer may blare any $s$ in a finite set $S$ of songs; when this
         happens, all the cows on hill $h$ move to the hill $f(s,h)$.  given
@@ -90,24 +117,13 @@
         what if the farmer's goal is to clear a specific hill $h_\star\in H$ 
         of cows?%
     }
-    \quest{sparse vectors}{%
-        \real a sparse vector is a list of numbers most of which are zero.  
+    \quest{\real sparse vectors}{%
+        a sparse vector is a list of numbers most of which are zero.  
               implement a space-saving sparse vector type along with a dot
               product.
     }{%
-        \real a sparse matrix is defined accordingly.  represent and multiply
+        a sparse matrix is defined accordingly.  represent and multiply
               large sparse matrices. 
-    }
-    \quest{lru cache}{%
-        \real write an lru cache that maps small strings (say, urls) to large
-        strings (say, html).  that is, implement a data structure that at any
-        time stores $\leq k$ many key-value pairs; that permits querying for
-        whether a key is present and its value is so; and that permits
-        insertion of new key-value pair, with the least-recently
-        inserted-or-queried pair removed if space is needed.%
-    }{%
-        \real show us how you would increase your confidence that your code is
-        correct.%   
     }
     \quest{super spreader}{%
         suppose we have the (reflexive, symmetric) `physically meets` relation
@@ -120,7 +136,7 @@
         determine a node that, when removed from the graph, results in a
         relation of least size.%
     }
-    \quest{bipartite graph}{%
+    \quest{\hard bipartite graph}{%
         the theory of markov chains references \emph{$k$-periodic graphs}. 
         an undirected graph is $k$-periodic if $k$ divides
         the length of every cycle.  determine whether a given graph is
@@ -128,19 +144,18 @@
     }{%
         does there exist a $k\geq 2$ for which the given graph is $k$-periodic?%
     }
-    \quest{family tree}{%
-        \real implement a binary-tree-of-strings type.  ancestor trees are of this
+    \quest{\real family tree}{%
+        implement a binary-tree-of-strings type.  ancestor trees are of this
         type.  we display ancestor trees in this style:
-        \cd{george(katy(mike,carole),william(charles(elizabeth,philip),diana))}.
-        compute the length of such a display.
+        \cd{george(katy(mike,carole),will(charlie(liz,phil),diana))}.
+        compute the length of such a display.%
     }{%
         compute two people's genetic relation given their ancestor trees.
         the genetic relation of siblings is $1/2$; of cousins is
         $1/8$; of strangers is $0$; and so forth.  the two trees' nodes
         name people, and we assume people have distinct and unique names.%
     }
-    \quest{knight tours}{%
-        \real
+    \quest{\real knight tours}{%
         how many ways can a knight on an otherwise empty chessboard move in
         exactly $n$ steps from one corner to the opposite corner?% 
     }{%
@@ -150,8 +165,7 @@
         about draws --- no stalemate, no draw by repetition, no draw upon 50
         reversible moves.  \emph{can black force a checkmate?}%
     }
-    \quest{an evil company}{%
-        \real
+    \quest{\real an evil company}{%
         a csv file is a text file representing a 2D grid of entries, with rows
         delimited by newlines and with elements of a row delimited by commas.    
         %
@@ -168,20 +182,20 @@
         string \cd{UNK}).  heuristically impute what missing entries you can.%
     }
     \quest{city hall}{%
-        a new hall is to be built for a city enjoying a square grid of streets.
-        we label the intersections by $(x,y)$ for $0\leq x,y<100$.  it takes
-        $|x-x^\prime|+|y-y^\prime|$ minutes to walk between intersections at
-        $(x,y)$ and $(x^\prime, y^\prime)$.  at intersection $(x,y)$ live
-        $p(x,y)$ residents.  we wish to place the city hall at an intersection
-        so as to minimize the walking time from residence to hall, averaged
-        uniformly over residents.  compute an ideal placement given $p$.  
+        a new hall is to be built among a square grid of streets.  we label street
+        intersections by $(x,y)$ for $0\leq x,y<100$.  it takes
+        $|x-x^\prime|+|y-y^\prime|$ minutes to walk between intersections
+        $(x,y)$ and $(x^\prime, y^\prime)$.  at $(x,y)$ live
+        $p(x,y)$ many residents.  place the hall at an intersection so as to
+        minimize the walking time from residence to hall, averaged uniformly
+        over residents.    
     }{%
         a rectangular park has northwest corners $(a,b)$ and southeast corner
         $(A,B)$.  we may not place city hall in the park or on its boundary.
-        what then?
+        what then?%
     }
-    \quest{task scheduling}{%
-        we employ three oxen on our farm: jesse, pat, and sandy.  each task $t$
+    \quest{\hard task scheduling}{%
+        we employ three oxen on our farm: jesse, pat, and sandy.  each $t$
         in a list $T$ of $1000$ tasks requires the simultaneous effort of $n_t$
         many oxen over a contiguous period of $d_t$ many days.  a schedule
         assigns each ox-day to some task.  determine a schedule that completes
@@ -190,7 +204,7 @@
         remark on the computational hardness of this task as we modify its
         parameters.% 
     }
-    \quest{$k$-SAT}{%
+    \quest{$k$ SAT}{%
         fix a finite set of logical atoms.  is
         a given list of assertions,
         each of the form ${\sf p}$ and ${\sf p}\to {\sf q}$, logically consistent?  here,
@@ -200,4 +214,24 @@
         what if we also permit a small number of assertions of the form
         $({\sf p}\wedge {\sf q})\to {\sf r}$?% 
     }
+    \quest{\hard graph homology}{%
+        we're given a connected undirected graph $G^{0}$.  an edge $e$ is
+        \emph{crucial} if removing $e$ disconnects the graph.  count the
+        crucial edges.
+    }{%
+        determine a sequence of edges to remove that results in a longest chain
+        $G^0, \cdots, G^n$ of connected undirected graphs.
+    }
+    \quest{\hard \real lru cache}{%
+        write an lru cache that maps small strings (say, urls) to large
+        strings (say, html).  that is, implement a data structure that at any
+        time stores $\leq k$ many key-value pairs; that permits querying for
+        whether a key is present and its value is so; and that permits
+        insertion of new key-value pair, with the least-recently
+        inserted-or-queried pair removed if space is needed.%
+    }{%
+        show us how you would increase your confidence that your code is
+        correct.%   
+    }
+
 \end{document}
