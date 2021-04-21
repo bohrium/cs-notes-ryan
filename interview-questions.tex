@@ -32,18 +32,18 @@
     distribution of input data and on which parameters you regard as
     asymptotically large.
 
+    \quest{\real legal parentheses}{%
+        check whether a given string of \cd{(}s and \cd{)}s is well-formed.%
+    }{%
+        what if we permit both round and square brackets?
+        we regard \cd{([)]} as ill-formed.%
+    }
     \quest{popularity contest}{%
         from a non-empty list of names identify the name(s) of greatest
         frequency.
     }{%
         identify the $10^4$ most frequently occuring names (assumed
         unique) from a list of length $10^6$.   
-    }
-    \quest{\real legal parentheses}{%
-        check whether a given string of \cd{(}s and \cd{)}s is well-formed.%
-    }{%
-        what if we permit both round and square brackets?
-        we regard \cd{([)]} as ill-formed.%
     }
     \quest{justify text}{%
         a paragraph is a list $(x_i: 0\leq i<N)$ of words with natural widths
@@ -63,11 +63,6 @@
         of the first line, then repeat.  is this greedy approach 
         suboptimal? 
     }
-    \quest{\real merge sort}{%
-        implement merge sort.%
-    }{%
-        compare merge sort with some alternatives.%
-    }
     \quest{missing numbers}{%
         given a length-$(n-1)$ array $L$ containing distinct integers in the
         range $R = [0,n)$, determine the element of $R$ not in $L$.% 
@@ -80,6 +75,11 @@
         w$ with $r+h\leq H, c+w\leq W$) whose elements have greatest sum?%
     }{%
         what if we wish to maximize the \emph{product}?% 
+    }
+    \quest{\real merge sort}{%
+        implement merge sort.%
+    }{%
+        compare merge sort with some alternatives.%
     }
     \quest{\hard memory allocation}{%
         implement a memory allocator (\cd{char*
@@ -104,6 +104,14 @@
     }{%
         does your solution use as few comparisons as possible (asymptotically)?
     }
+    \quest{\real sparse vectors}{%
+        a sparse vector is a list of numbers most of which are zero.  
+              implement a space-saving sparse vector type along with a dot
+              product.
+    }{%
+        a sparse matrix is defined accordingly.  build on your vector code to
+        represent and multiply large sparse matrices. 
+    }
     \quest{\hard \real herding cows}{%
         a farmer tries to herd musical cows all onto some single hill in a
         set $H$ of hills.  each cow starts on a hill in $H$.  when the
@@ -113,14 +121,6 @@
     }{%
         what if the farmer seeks to clear a specific hill $h_\star\in H$ 
         of cows?%
-    }
-    \quest{\real sparse vectors}{%
-        a sparse vector is a list of numbers most of which are zero.  
-              implement a space-saving sparse vector type along with a dot
-              product.
-    }{%
-        a sparse matrix is defined accordingly.  build on your vector code to
-        represent and multiply large sparse matrices. 
     }
     \quest{super spreader}{%
         we represent the (reflexive, symmetric) `physically meets` relation on
@@ -162,6 +162,16 @@
         about draws --- no stalemate, no draw by repetition, no draw upon 50
         reversible moves.  \emph{can black force a checkmate?}%
     }
+    \quest{logical consistency}{%
+        fix a finite set of logical atoms.  is
+        a given list of assertions,
+        each of the form ${\sf p}$ or ${\sf p}\to {\sf q}$, logically consistent?  here,
+        ${\sf p},{\sf
+        q}$ stand for atoms or their negations.%
+    }{%
+        what if we also permit a small number of assertions of the form
+        $({\sf p}\wedge {\sf q})\to {\sf r}$?% 
+    }
     \quest{\real an evil company}{%
         a csv file is a text file representing a 2D grid of entries, with rows
         delimited by newlines and with elements of a row delimited by commas.    
@@ -180,8 +190,8 @@
     \quest{city hall}{%
         a new hall is to be built among a grid of streets.  we label street
         intersections by $(x,y)$ for $0\leq x,y<100$.  it takes
-        $|x-x^\prime|+|y-y^\prime|$ minutes to walk between 
-        $(x,y)$ and $(x^\prime, y^\prime)$.  at $(x,y)$ live
+        $|x-x^\prime|+|y-y^\prime|$ minutes to walk from 
+        $(x,y)$ to $(x^\prime, y^\prime)$.  at $(x,y)$ live
         $p(x,y)$ many residents.  place the hall at an intersection so as to
         minimize the walking time from residence to hall, averaged uniformly
         over residents.    
@@ -200,16 +210,6 @@
         remark on the computational hardness of this task as we modify its
         parameters.% 
     }
-    \quest{$k$ SAT}{%
-        fix a finite set of logical atoms.  is
-        a given list of assertions,
-        each of the form ${\sf p}$ or ${\sf p}\to {\sf q}$, logically consistent?  here,
-        ${\sf p},{\sf
-        q},{\sf r}$ stand for atoms or their negations.%
-    }{%
-        what if we also permit a small number of assertions of the form
-        $({\sf p}\wedge {\sf q})\to {\sf r}$?% 
-    }
     \quest{\hard graph homology}{%
         we're given a connected undirected graph $G^{0}$.  an edge $e$ is
         \emph{crucial} if removing $e$ disconnects the graph.  count the
@@ -222,7 +222,7 @@
         write an lru cache that maps small strings (say, urls) to large
         strings (say, html).  that is, implement a data structure that at any
         time stores $\leq k$ many key-value pairs; that answers queries for
-        whether a key is present for its value is so; and that permits
+        whether a key is present and for its value if so; and that permits
         insertion of new key-value pair, with the least-recently
         inserted-or-queried pair removed if space is needed.%
     }{%
