@@ -48,6 +48,24 @@
         now $L$ has length $n-2$ and misses two elements of $R$.  determine
         these missing elements.%
     }
+    \quest{viola jones}{%
+        imagine a 2d $H\times W$ array of \cd{float}s, some negative.  find a
+        contiguous sub-array (specified by a corner $(r,c)$ a shape $h \times
+        w$ with $r+h\leq H, c+w\leq W$) whose elements have greatest sum?%
+    }{%
+        what if we wish to maximize the \emph{product}?% 
+    }
+    \quest{memory allocation}{%
+        implement a simple memory allocator (i.e., implement \cd{char*
+        malloc(int nb\_bytes)}, \cd{char* free(int nb\_bytes)}).  use a
+        primitive \cd{char* sbrk(int nb\_kilobytes)} to request chunks of
+        memory from the OS.  (\cd{sbrk} stands for \emph{space increments after program break address}.)%
+    }{%
+        our video game makes a large number of small ($\leq 8$ byte)
+        allocations (representing polygons etc) when rendering each frame, and
+        it frees all of those allocations at once.  adapt your memory allocator
+        to this setting.  speed is key.%
+    }
     \quest{palindromic substring}{%
         find a longest contiguous palindromic substring of a given string.% 
     }{%
