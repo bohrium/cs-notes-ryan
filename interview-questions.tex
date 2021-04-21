@@ -1,6 +1,6 @@
 \documentclass{article}
 \usepackage[top=1.2in,bottom=1.2in,left=1.2in,right=1.2in]{geometry}
-\usepackage{xcolor}
+\usepackage{amsmath, amssymb, xcolor}
 
 \newcounter{qcounter}
 \newcommand{\quest}[3]{%
@@ -72,8 +72,7 @@
         given a length-$(n-1)$ array $L$ containing distinct integers in the
         range $R = [0,n)$, determine the element of $R$ not in $L$.% 
     }{%
-        now $L$ has length $n-2$ and misses two elements of $R$.  determine
-        these missing elements.%
+        what if $L$ misses two elements of $R$?%
     }
     \quest{viola jones}{%
         imagine a 2d $H\times W$ array of \cd{float}s, some negative.  find a
@@ -83,15 +82,14 @@
         what if we wish to maximize the \emph{product}?% 
     }
     \quest{\hard memory allocation}{%
-        implement a simple memory allocator (i.e., implement \cd{char*
+        implement a memory allocator (\cd{char*
         malloc(int nb\_bytes)}, \cd{char* free(int nb\_bytes)}).  use a
         primitive \cd{char* sbrk(int nb\_kilobytes)} to request chunks of
-        memory from the OS.  (\cd{sbrk} stands for \emph{space increments after program break address}.)%
+        memory from the OS. 
     }{%
-        our video game makes a large number of small ($\leq 8$ byte)
-        allocations (representing polygons etc) when rendering each frame, and
-        it frees all of those allocations at once.  adapt your memory allocator
-        to this setting.  speed is key.%
+        our game in each video frame allocates many small ($4$-byte to
+        $8$-byte) polygons to be freed together before the next frame.  adapt
+        your memory allocator to this setting.  speed is key.%
     }
     \quest{palindromic substring}{%
         find a longest contiguous palindromic substring of a given string.% 
@@ -107,14 +105,13 @@
         does your solution use as few comparisons as possible (asymptotically)?
     }
     \quest{\hard \real herding cows}{%
-        a farmer tries to herd musical cows all onto some single hill
-        in a finite set $H$ of hills.  each cow starts on some hill in $H$.
-        the farmer may blare any $s$ in a finite set $S$ of songs; when this
-        happens, all the cows on hill $h$ move to the hill $f(s,h)$.  given
-        $H,S,f$ determine whether the farmer may achieve her goal by blaring
-        some sequence of songs.%
+        a farmer tries to herd musical cows all onto some single hill in a
+        set $H$ of hills.  each cow starts on a hill in $H$.  when the
+        farmer blares an $s$ in a set $S$ of songs, all the cows on hill
+        $h$ move to the hill $f(s,h)$.  given $H,S,f$ determine whether the
+        farmer may achieve her goal by blaring some sequence of songs.%
     }{%
-        what if the farmer's goal is to clear a specific hill $h_\star\in H$ 
+        what if the farmer seeks to clear a specific hill $h_\star\in H$ 
         of cows?%
     }
     \quest{\real sparse vectors}{%
@@ -122,14 +119,14 @@
               implement a space-saving sparse vector type along with a dot
               product.
     }{%
-        a sparse matrix is defined accordingly.  represent and multiply
-              large sparse matrices. 
+        a sparse matrix is defined accordingly.  build on your vector code to
+        represent and multiply large sparse matrices. 
     }
     \quest{super spreader}{%
-        suppose we have the (reflexive, symmetric) `physically meets` relation
-        on a large set of people, represented for each person as a list of
-        related people.  \emph{compute the relation's transitive closure.}
-        choose output representation that uses a reasonable amount of space.%
+        we represent the (reflexive, symmetric) `physically meets` relation on
+        people by giving for each person a list of contacts.
+        \emph{compute the relation's transitive closure.} choose an output
+        representation that uses a reasonable amount of space.%
     }{%
         a relation's \emph{size} is the maximum among the cardinalities of
         equivalence classes of the induced equivalence relation.
@@ -169,37 +166,36 @@
         a csv file is a text file representing a 2D grid of entries, with rows
         delimited by newlines and with elements of a row delimited by commas.    
         %
-        this csv file's rows records a person's data on some website.  its
-        columns \cd{abcdef} list: \cd{a} the website, the person's \cd{b}
-        username and \cd{c} password on that website, and \cd{d} their email
-        address, \cd{e} phone number, and \cd{f} year-of-birth.
+        each of our csv file's rows records some person's data with some store.
+        its columns list: \cd{a} the store and the person's \cd{b} username at
+        that store, \cd{c} email address, \cd{d} phone number, and \cd{e}
+        year-of-birth.
         %
-        \emph{parse the file; do some two rows represent the same
-        person?}  use reasonable heuristics to identify the aforementioned
-        columns and to answer the question.%
+        \emph{parse the file; do some two rows represent the same person?}  use
+        reasonable heuristics.%
     }{%
         suppose now that some rows have missing entries (represented by the
         string \cd{UNK}).  heuristically impute what missing entries you can.%
     }
     \quest{city hall}{%
-        a new hall is to be built among a square grid of streets.  we label street
+        a new hall is to be built among a grid of streets.  we label street
         intersections by $(x,y)$ for $0\leq x,y<100$.  it takes
-        $|x-x^\prime|+|y-y^\prime|$ minutes to walk between intersections
+        $|x-x^\prime|+|y-y^\prime|$ minutes to walk between 
         $(x,y)$ and $(x^\prime, y^\prime)$.  at $(x,y)$ live
         $p(x,y)$ many residents.  place the hall at an intersection so as to
         minimize the walking time from residence to hall, averaged uniformly
         over residents.    
     }{%
-        a rectangular park has northwest corners $(a,b)$ and southeast corner
-        $(A,B)$.  we may not place city hall in the park or on its boundary.
+        a rectangular park has northwest corner $(a,b)$ and southeast corner
+        $(A,B)$.  we may not place city hall in the park.
         what then?%
     }
     \quest{\hard task scheduling}{%
         we employ three oxen on our farm: jesse, pat, and sandy.  each $t$
-        in a list $T$ of $1000$ tasks requires the simultaneous effort of $n_t$
-        many oxen over a contiguous period of $d_t$ many days.  a schedule
-        assigns each ox-day to some task.  determine a schedule that completes
-        all tasks in $T$ by year's end, if possible.% 
+        in a list $T$ of tasks requires the simultaneous effort of $n_t$
+        many oxen over a contiguous period of $d_t\in \mathbb{N}$ days.  a schedule
+        assigns each ox-day to some task.  schedule so as to complete
+        all tasks by year's end, if possible.% 
     }{%
         remark on the computational hardness of this task as we modify its
         parameters.% 
@@ -207,7 +203,7 @@
     \quest{$k$ SAT}{%
         fix a finite set of logical atoms.  is
         a given list of assertions,
-        each of the form ${\sf p}$ and ${\sf p}\to {\sf q}$, logically consistent?  here,
+        each of the form ${\sf p}$ or ${\sf p}\to {\sf q}$, logically consistent?  here,
         ${\sf p},{\sf
         q},{\sf r}$ stand for atoms or their negations.%
     }{%
@@ -225,8 +221,8 @@
     \quest{\hard \real lru cache}{%
         write an lru cache that maps small strings (say, urls) to large
         strings (say, html).  that is, implement a data structure that at any
-        time stores $\leq k$ many key-value pairs; that permits querying for
-        whether a key is present and its value is so; and that permits
+        time stores $\leq k$ many key-value pairs; that answers queries for
+        whether a key is present for its value is so; and that permits
         insertion of new key-value pair, with the least-recently
         inserted-or-queried pair removed if space is needed.%
     }{%
