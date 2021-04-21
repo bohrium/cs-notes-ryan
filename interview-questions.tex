@@ -247,6 +247,7 @@
         return depth==0
 \end{verbatim}
 
+\newpage
     \par\noindent\hspace{-1cm}
     \textbf{5. merge sort.}
 
@@ -284,6 +285,17 @@
                 predecessors[f(s, p)].add(p)
         return predecessors
 
+    def can_herd(f): 
+        predecessors = predecessors_pairs(f)
+        unfied = set([(h, h) for h in H])
+        unifiable = reachable_pairs(unified, predecessors) 
+        return unifiable == all_pairs
+\end{verbatim}
+
+\vfill
+\noindent here, \cd{reachable\_pairs} is just an alias for
+breadth-first-search.  here's an implemnentation:
+\begin{verbatim}
     def reachable_pairs(starting_pairs, edges_from):
         # BFS: 
         reachable = set([])
@@ -295,41 +307,47 @@
             if not frontier.difference(reachable): break
             reachable.update(frontier)
         return reachable
-
-    def can_herd(f): 
-        predecessors = predecessors_pairs(f)
-        unfied = set([(h, h) for h in H])
-        unifiable = reachable_pairs(unified, predecessors) 
-        return unifiable == all_pairs
-
 \end{verbatim}
 
+\newpage
     \par\noindent\hspace{-1cm}
     \textbf{15. logical consistency.}
 
 \begin{verbatim}
-    # we represent each atom as a string and we each judgement (of an atom
+    # we represent each atom as a string in A and each judgement (of an atom
     # as true or false) by a pair (string, bool).
     # we're given P0, the set of simple assertions p, and P1, the set of
     # asserted implications p --> q.  here, p, q stand for judgements.
 
-    def all_judgements(P0, P1): 
-        judgements = set([(p,b) for (p,b) in P0]) # copy
-        unstable = True
-        while unstable:
-            unstable = False
-            for (x, v) in judgements:
-                for ((p, a), (q, b)) in P1:
-                    if (x, v) != (p, a) or (q, b) in judgements: continue
-                    judgements.add((q, b))
-                    unstable = True
-        return judgements
+    def inference_rules(P1):
+        rules = {(x,v):set([]) for x in A for v in (False, True)}
+        for ((p, a), (q, b)) in P1:
+            rules[(p, a)].add((q, b))       # ponens
+            rules[(q, not b)].add((p, a))   # contrapositive
+        return rules
 
     def is_consistent(P0, P1):
-        js = all_judgements(P0, P1)
+        js = judgements_from(P0, inference_rules(P1))
         for (x, v) in js:
             if (x, not v) in js: return False
         return True
+\end{verbatim}
+
+\vfill
+\noindent here, \cd{judgements\_from} is just an alias for
+breadth-first-search.  here's an implemnentation:
+\begin{verbatim}
+    def judgements_from(P0, rules):
+        # BFS: 
+        judgements = P0.copy()
+        frontier = judgements
+        while True:
+            old_frontier = frontier
+            frontier = set([])
+            for p in old_frontier: frontier.update(rules[p]) 
+            if not frontier.difference(judgements): break
+            judgements.update(frontier)
+        return judgements 
 \end{verbatim}
 
 \newpage
