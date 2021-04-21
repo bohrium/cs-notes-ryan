@@ -232,6 +232,7 @@
 
     \newpage
     \textbf{\Large Sample Solutions}
+    \vspace{1cm}
 
     \par\noindent\hspace{-1cm}
     \textbf{0. legal parentheses.}
@@ -256,7 +257,7 @@
         while i != len(l_a):
             while j != len(l_b) and l_b[j] < l_a[i]:
                 l.append(l_b[j]); j += 1
-            l.append(x)
+            l.append(l_a[i]); i += 1
         return l
 
     def merge_sort(l):
@@ -268,25 +269,41 @@
                )
 \end{verbatim}
 
+\newpage
     \par\noindent\hspace{-1cm}
     \textbf{10. herding cows.}
-
+        insight: the farmer can unite \emph{all} hills if and only if
+                 she can unite \emph{any pair} of hills.
 \begin{verbatim}
-    # suppose H and S are given lists
+    all_pairs = set([(h_a, h_b) for h_a in H for h_b in H])
 
-    def can_unify(f, h_a, h_b):
-        for song in S:
-            if f(song, h_a) == f(song, h_b): return True
-        return False
+    def predecessor_pairs(f):
+        predecessors = {p: set([]) for p in all_pairs}
+        for s in S:
+            for p in all_pairs:
+                predecessors[f(s, p)].add(p)
+        return predecessors
+
+    def reachable_pairs(starting_pairs, edges_from):
+        # BFS: 
+        reachable = set([])
+        frontier = starting_pairs
+        while True:
+            old_frontier = frontier
+            frontier = set([])
+            for p in old_frontier: frontier.update(edges_from[p]) 
+            if not frontier.difference(reachable): break
+            reachable.update(frontier)
+        return reachable
 
     def can_herd(f): 
-        for h_a in H:
-            for h_b in H:
-                if not can_unify(f, h_a, h_b): return False
-        return True
+        predecessors = predecessors_pairs(f)
+        unfied = set([(h, h) for h in H])
+        unifiable = reachable_pairs(unified, predecessors) 
+        return unifiable == all_pairs
+
 \end{verbatim}
 
-\newpage
     \par\noindent\hspace{-1cm}
     \textbf{15. logical consistency.}
 
@@ -318,25 +335,17 @@
 \newpage
     \par\noindent\hspace{-1cm}
     \textbf{20. lru cache.}
-
+        insight: we keep the keys in order of last use; to permit fast
+                 deletion, we use a doubly linked list instead of an array;
+                 to permit fast access-by-key, we also maintain a hash
+                 table mapping keys to nodes of the list.
 \begin{verbatim}
-    class DLLNode:
-        def __init__(self, pred, succ, cargo):  
-            self.pred = pred
-            self.succ = succ
-            if self.pred is not None: self.pred.succ = self
-            if self.succ is not None: self.succ.pred = self
-            self.cargo = cargo
-        def remove(self): 
-            if self.pred is not None: self.pred.succ = self.succ
-            if self.succ is not None: self.succ.pred = self.pred
-
     class LruCache:
         def __init__(self, k):
             self.k = k
-            self.data = {} # key --> (value, DLL node containing key)
-            self.head = DLLNode(None, None, None) 
-            self.tail = DLLNode(head, None, None) 
+            self.data = {} # key --> [value, DLL node for key]
+            self.head = DLLNode(None     , None, None) 
+            self.tail = DLLNode(self.head, None, None)
 
         def query(self, key): 
             self.touch(key)
@@ -347,21 +356,38 @@
             if key not in self.data:
                 self.data[key] = (value, DLLNode(self.head, self.head.succ, key)) 
                 self.trim()
-            else:
-                self.touch(key)
-                self.data[key] = (value, self.data[key][1])
+            self.touch(key)
+            self.data[key][0] = value
 
         def touch(self, key):
-            (_, node) = self.data[key] 
+            node = self.data[key][1] 
             node.remove()
-            DLLNode(self.head, self.head.succ, key)
+            node.insert(self.head, self.head.succ)
 
         def trim(self):
             while len(self.data) > self.k:
                 last = self.tail.pred
                 last.remove()
                 del self.data[last.cargo] 
+\end{verbatim}
 
+\vfill
+\noindent for completeness, here's an implementation of \cd{DLLNode}: 
+\begin{verbatim}
+    class DLLNode:
+        def __init__(self, pred, succ, cargo):  
+            self.cargo = cargo
+            self.insert(pred, succ)
+
+        def insert(self, pred, succ):
+            self.pred = pred
+            self.succ = succ
+            if self.pred is not None: self.pred.succ = self
+            if self.succ is not None: self.succ.pred = self
+
+        def remove(self): 
+            if self.pred is not None: self.pred.succ = self.succ
+            if self.succ is not None: self.succ.pred = self.pred
 \end{verbatim}
 
 \end{document}
