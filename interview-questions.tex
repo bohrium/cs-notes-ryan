@@ -201,11 +201,11 @@
         what then?%
     }
     \quest{\hard task scheduling}{%
-        we employ three oxen on our farm: jesse, pat, and sandy.  each $t$
-        in a list $T$ of tasks requires the simultaneous effort of $n_t$
-        many oxen over a contiguous period of $d_t\in \mathbb{N}$ days.  a schedule
-        assigns each ox-day to some task.  schedule so as to complete
-        all tasks by year's end, if possible.% 
+        we employ three oxen on our farm: jesse, pat, and sandy.  each $t$ in a
+        size list $T$ of tasks requires the simultaneous effort of $n_t$
+        many oxen over a contiguous period of $d_t\in \mathbb{N}$ hours.  a
+        schedule assigns each ox-hour to some task.  schedule so as to complete
+        all tasks by day's end, if possible.% 
     }{%
         remark on the computational hardness of this task as we modify its
         parameters.% 
@@ -273,16 +273,21 @@
 \newpage
     \par\noindent\hspace{-1cm}
     \textbf{10. herding cows.}
+
         insight: the farmer can unite \emph{all} hills if and only if
                  she can unite \emph{any pair} of hills.
 \begin{verbatim}
-    all_pairs = set([(h_a, h_b) for h_a in H for h_b in H])
+    # assume H contains sortable, hashable elements
+
+    # consider only sorted pairs to cut work in half:
+    all_pairs = set([tuple(sorted([h_a, h_b])) for h_a in H for h_b in H)
 
     def predecessor_pairs(f):
         predecessors = {p: set([]) for p in all_pairs}
         for s in S:
             for p in all_pairs:
-                predecessors[f(s, p)].add(p)
+                succ = tuple(sorted(f(s, h) for h in p)) 
+                predecessors[succ].add(p)
         return predecessors
 
     def can_herd(f): 
@@ -298,7 +303,7 @@ breadth-first-search.  here's an implemnentation:
 \begin{verbatim}
     def reachable_pairs(starting_pairs, edges_from):
         # BFS: 
-        reachable = set([])
+        reachable = staring_pairs.copy()
         frontier = starting_pairs
         while True:
             old_frontier = frontier
@@ -340,7 +345,7 @@ breadth-first-search.  here's an implemnentation:
     def judgements_from(P0, rules):
         # BFS: 
         judgements = P0.copy()
-        frontier = judgements
+        frontier = P0
         while True:
             old_frontier = frontier
             frontier = set([])
@@ -353,6 +358,7 @@ breadth-first-search.  here's an implemnentation:
 \newpage
     \par\noindent\hspace{-1cm}
     \textbf{20. lru cache.}
+
         insight: we keep the keys in order of last use; to permit fast
                  deletion, we use a doubly linked list instead of an array;
                  to permit fast access-by-key, we also maintain a hash
