@@ -1,0 +1,127 @@
+\documentclass{article}
+\usepackage[top=1.2in,bottom=1.2in,left=1.2in,right=1.2in]{geometry}
+
+\newcounter{qcounter}
+\newcommand{\quest}[3]{%
+    \par\noindent\hspace{-1cm}
+    \textbf{\theqcounter\refstepcounter{qcounter}. #1.}
+    {#2}
+    (twist: {#3})
+}
+
+\newcommand{\cd}{\texttt}
+
+\begin{document}
+    Ryan, these questions are for practice.  A 45 minute technical interview
+    might have two or three such questions.  Each question has a main version
+    as well as a twist that an interviewer might present upon satisfactory
+    solution of the main version.  The twists might test flexibility of
+    thinking and depth of understanding.  It might be good to ask Chloe to read
+    a sample to you to simulate an interview.  
+
+    Questions of the form \emph{determine xyz given abc} stand for
+    \emph{construct a program that determines xyz given abc}.  Also implicit is
+    the expectation that you explain what assumptions you make and that you
+    offer an informal complexity analysis for each solution.  For example, you
+    may want to remark on your assumptions about the types and probability
+    distribution of input data and on which parameters you regard as
+    asymptotically large.
+
+    Tools to have in your toolbox include 
+    \textbf{DFS-stacks},
+    \textbf{BFS-queues},
+    \textbf{dynamic programming},
+
+    \quest{legal parentheses}{%
+        check whether a given string of \cd{(}s and \cd{)}s is well-formed.%
+    }{%
+        what if we permit both round and square brackets?
+        we regard \cd{([)]} as ill-formed.%
+    }
+    \quest{missing numbers}{%
+        given a length-$(n-1)$ array $L$ containing distinct integers in the
+        range $R = [0,n)$, determine the element of $R$ not in $L$.% 
+    }{%
+        now $L$ has length $n-2$ and misses two elements of $R$.  determine
+        these missing elements.%
+    }
+    \quest{palindromic substring}{%
+        find a longest contiguous palindromic substring of a given string.% 
+    }{%
+        count the length-$\geq k$ contiguous palindromic substrings of a given
+        string and for a given $k$.%
+    }
+    \quest{distinct elements}{%
+        consider a type that supports a comparator with respect to which it is
+        totally ordered.  determine whether a list of elements of this type
+        has all elements distinct.
+    }{%
+        does your solution use as few comparisons as possible (asymptotically)?
+    }
+    \quest{herding cows}{%
+        a farmer tries to herd musical cows all onto some single hill in a
+        finite set $H$ of hills.  each cow starts on some hill in $H$.  the
+        farmer may blare any $s$ in a finite set $S$ of songs; when this
+        happens, all the cows on hill $h$ move to the hill $f(s,h)$.  given
+        $H,S,f$ determine whether the farmer may achieve her goal by blaring
+        some sequence of songs.%
+    }{%
+        what if the farmer's goal is to clear a specific hill $h_\star\in H$ 
+        of cows?%
+    }
+    \quest{lru cache}{%
+        write an lru cache that maps small strings (urls) to large strings
+        (html).  that is, implement a data structure that at any time stores
+        $\leq k$ many key-value pairs; that returns the value (or \cd{none})
+        associated to a given query; and that permits insertion of new
+        key-value pair, with the least-recently inserted-or-queried pair
+        removed if needed to make space.%
+    }{%
+        show us how you would increase your confidence that your code is
+        correct.%   
+    }
+    \quest{family tree}{%
+        implement a binary-tree-of-strings type.  the tree represents a family
+        tree, which we wish to print in this style:
+        \cd{me(pop(abuelo,abuela),(granny(vic,al),gramps))}.  write a function
+        computing the length of such a printout.
+    }{%
+        given two family trees (for two different people), computes their
+        genetic relation.  the genetic relation between siblings is $1/2$;
+        between cousins is $1/8$; between strangers is $0$; and so forth.  the
+        two trees' nodes name people, and we assume people have distinct and
+        unique names.
+    }
+    \quest{knight tours}{%
+        how many ways can a knight on an otherwise empty chessboard move in
+        exactly $n$ steps from one corner to the opposite corner?% 
+    }{%
+        consider a simplified game of chess with three black knights, one white
+        king, and no other pieces.  the knights start as close as possible to
+        one corner; the king, to the opposite corner.  this game has no rules
+        about draws --- no stalemate, no draw by repetition, no draw upon 50
+        reversible moves.  \emph{can black force a checkmate?}%
+    }
+    \quest{an evil company}{%
+        a csv file is a text file representing a 2D
+        grid of entries, with rows delimited by newlines and with elements of a
+        row delimited by commas.    
+        %
+        each row records a person's data on a website.  among the many columns
+        are some six columns that respectively list \cd{a} the website, the
+        person's \cd{b} username and \cd{c} password on that website, and
+        \cd{d} their email address, \cd{e} phone number, \cd{e} year-of-birth.
+        no entries are missing. 
+        %
+        \emph{parse a given csv file; do some two rows represent the same
+        person?}  use reasonable heuristics to identify the aforementioned
+        columns and to answer the question.%
+    }{%
+        suppose now that some rows have missing entries.  heuristically impute
+        (fill in) what missing entries you can.%
+    }
+    \quest{}{%
+    }{%
+    }
+
+\end{document}

@@ -1,0 +1,147 @@
+\documentclass{article}
+\usepackage[top=1.2in,bottom=1.2in,left=1.2in,right=1.2in]{geometry}
+\usepackage{xcolor}
+
+\newcounter{qcounter}
+\newcommand{\quest}[3]{%
+    \par\noindent\hspace{-1cm}
+    \textbf{\theqcounter\refstepcounter{qcounter}. #1.}
+    {#2}
+    ------ \textsc{twist}: {#3}
+}
+
+\newcommand{\cd}{\texttt}
+\newcommand{\real}{{\color{red!75}$\star$\ }}
+
+\begin{document}
+    Ryan, these questions are for practice.  A 45 minute technical interview
+    might have two or three such questions.  Questions marked with \real are
+    (inspired by) actual ones I've gotten.  Each question has a main version as
+    well as a followup twist that an interviewer might ask upon satisfactory
+    solution of the main version.  It might be good to avoid reading these
+    yourself, instead asking Chloe to draw randomly from these questions during
+    a practice interview.
+
+    Questions of the form \emph{determine xyz given abc} stand for
+    \emph{construct a program that determines xyz given abc}.  Also implicit is
+    the expectation that you explain what assumptions you make and that you
+    offer an informal complexity analysis for each solution.  For example, you
+    may want to remark on your assumptions about the types and probability
+    distribution of input data and on which parameters you regard as
+    asymptotically large.
+
+
+    Tools to have in your toolbox include 
+    \textbf{DFS-stacks},
+    \textbf{BFS-queues},
+    \textbf{dynamic programming},
+
+    \quest{legal parentheses}{%
+        \real check whether a given string of \cd{(}s and \cd{)}s is well-formed.%
+    }{%
+        \real what if we permit both round and square brackets?
+        we regard \cd{([)]} as ill-formed.%
+    }
+    \quest{missing numbers}{%
+        given a length-$(n-1)$ array $L$ containing distinct integers in the
+        range $R = [0,n)$, determine the element of $R$ not in $L$.% 
+    }{%
+        now $L$ has length $n-2$ and misses two elements of $R$.  determine
+        these missing elements.%
+    }
+    \quest{palindromic substring}{%
+        find a longest contiguous palindromic substring of a given string.% 
+    }{%
+        count the length-$\geq k$ contiguous palindromic substrings of a given
+        string and for a given $k$.%
+    }
+    \quest{distinct elements}{%
+        consider a type that supports a comparator with respect to which it is
+        totally ordered.  determine whether a list of elements of this type
+        has all elements distinct.
+    }{%
+        does your solution use as few comparisons as possible (asymptotically)?
+    }
+    \quest{herding cows}{%
+        \real a farmer tries to herd musical cows all onto some single hill
+        in a finite set $H$ of hills.  each cow starts on some hill in $H$.
+        the farmer may blare any $s$ in a finite set $S$ of songs; when this
+        happens, all the cows on hill $h$ move to the hill $f(s,h)$.  given
+        $H,S,f$ determine whether the farmer may achieve her goal by blaring
+        some sequence of songs.%
+    }{%
+        what if the farmer's goal is to clear a specific hill $h_\star\in H$ 
+        of cows?%
+    }
+    \quest{sparse vectors}{%
+        \real a sparse vector is a list of numbers most of which are zero.  
+              implement a space-saving sparse vector type along with a dot
+              product.
+    }{%
+        \real a sparse matrix is defined accordingly.  represent and multiply
+              large sparse matrices. 
+    }
+    \quest{lru cache}{%
+        \real write an lru cache that maps small strings (say, urls) to large
+        strings (say, html).  that is, implement a data structure that at any
+        time stores $\leq k$ many key-value pairs; that permits querying for
+        whether a key is present and its value is so; and that permits
+        insertion of new key-value pair, with the least-recently
+        inserted-or-queried pair removed if space is needed.%
+    }{%
+        \real show us how you would increase your confidence that your code is
+        correct.%   
+    }
+    \quest{family tree}{%
+        \real implement a binary-tree-of-strings type.  ancestor trees are of this
+        type.  we display ancestor trees in this style:
+        \cd{george(katy(mike,carole),william(charles(elizabeth,philip),diana))}.
+        compute the length of such a display.
+    }{%
+        compute two people's genetic relation given their ancestor trees.
+        the genetic relation of siblings is $1/2$; of cousins is
+        $1/8$; of strangers is $0$; and so forth.  the two trees' nodes
+        name people, and we assume people have distinct and unique names.%
+    }
+    \quest{knight tours}{%
+        \real
+        how many ways can a knight on an otherwise empty chessboard move in
+        exactly $n$ steps from one corner to the opposite corner?% 
+    }{%
+        consider a simplified game of chess with three black knights, one white
+        king, and no other pieces.  the knights start as close as possible to
+        one corner; the king, to the opposite corner.  this game has no rules
+        about draws --- no stalemate, no draw by repetition, no draw upon 50
+        reversible moves.  \emph{can black force a checkmate?}%
+    }
+    \quest{an evil company}{%
+        a csv file is a text file representing a 2D grid of entries, with rows
+        delimited by newlines and with elements of a row delimited by commas.    
+        %
+        this csv file's rows records a person's data on some website.  its
+        columns \cd{abcdef} list: \cd{a} the website, the person's \cd{b}
+        username and \cd{c} password on that website, and \cd{d} their email
+        address, \cd{e} phone number, and \cd{f} year-of-birth.
+        %
+        \emph{parse the file; do some two rows represent the same
+        person?}  use reasonable heuristics to identify the aforementioned
+        columns and to answer the question.%
+    }{%
+        suppose now that some rows have missing entries (represented by the
+        string \cd{UNK}).  heuristically impute what missing entries you can.%
+    }
+    \quest{city hall}{%
+        a new hall is to be built for a city enjoying a square grid of streets.
+        we label the intersections by $(x,y)$ for $0\leq x,y<100$.  it takes
+        $|x-x^\prime|+|y-y^\prime|$ minutes to walk between intersections at
+        $(x,y)$ and $(x^\prime, y^\prime)$.  at intersection $(x,y)$ live
+        $p(x,y)$ residents.  we wish to place the city hall at an intersection
+        so as to minimize the walking time from residence to hall, averaged
+        uniformly over residents.  compute an ideal placement given $p$.  
+    }{%
+        a rectangular central park with northwest corners $(a,b)$ 
+        and southeast corner $(A,B)$.  we may not place city hall in the park
+        or on its boundary.  what then?
+    }
+
+\end{document}
