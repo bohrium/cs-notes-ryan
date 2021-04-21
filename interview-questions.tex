@@ -30,11 +30,10 @@
     distribution of input data and on which parameters you regard as
     asymptotically large.
 
-
-    Tools to have in your toolbox include 
-    \textbf{DFS-stacks},
-    \textbf{BFS-queues},
-    \textbf{dynamic programming},
+    %Tools to have in your toolbox include 
+    %\textbf{DFS-stacks},
+    %\textbf{BFS-queues},
+    %\textbf{dynamic programming},
 
     \quest{legal parentheses}{%
         \real check whether a given string of \cd{(}s and \cd{)}s is well-formed.%
@@ -92,6 +91,25 @@
         \real show us how you would increase your confidence that your code is
         correct.%   
     }
+    \quest{super spreader}{%
+        suppose we have the (reflexive, symmetric) `physically meets` relation
+        on a large set of people, represented for each person as a list of
+        related people.  \emph{compute the relation's transitive closure.}
+        choose output representation that uses a reasonable amount of space.%
+    }{%
+        a relation's \emph{size} is the maximum among the cardinalities of
+        equivalence classes of the induced equivalence relation.
+        determine a node that, when removed from the graph, results in a
+        relation of least size.%
+    }
+    \quest{bipartite graph}{%
+        the theory of markov chains references \emph{$k$-periodic graphs}. 
+        an undirected graph is $k$-periodic if $k$ divides
+        the length of every cycle.  determine whether a given graph is
+        $2$-periodic.%
+    }{%
+        does there exist a $k\geq 2$ for which the given graph is $k$-periodic?%
+    }
     \quest{family tree}{%
         \real implement a binary-tree-of-strings type.  ancestor trees are of this
         type.  we display ancestor trees in this style:
@@ -115,6 +133,7 @@
         reversible moves.  \emph{can black force a checkmate?}%
     }
     \quest{an evil company}{%
+        \real
         a csv file is a text file representing a 2D grid of entries, with rows
         delimited by newlines and with elements of a row delimited by commas.    
         %
@@ -139,9 +158,9 @@
         so as to minimize the walking time from residence to hall, averaged
         uniformly over residents.  compute an ideal placement given $p$.  
     }{%
-        a rectangular central park with northwest corners $(a,b)$ 
-        and southeast corner $(A,B)$.  we may not place city hall in the park
-        or on its boundary.  what then?
+        a rectangular park has northwest corners $(a,b)$ and southeast corner
+        $(A,B)$.  we may not place city hall in the park or on its boundary.
+        what then?
     }
 
 \end{document}
